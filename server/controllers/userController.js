@@ -7,6 +7,7 @@ import { Course } from "../models/Course.js";
 import { sendToken } from "../utils/sendToken.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import getDataURI from "../utils/dataURI.js";
+import { Stats } from "../models/Stats.js";
 
 export const register = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -106,7 +107,7 @@ export const deleteMyProfile = catchAsyncError(async (req, res, next) => {
     })
     .json({
       success: true,
-      message: "Profile delete successfully!"
+      message: "Profile deleted successfully"
     })
 })
 
@@ -114,7 +115,7 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   const user = await User.findById(req.user._id).select("+password");
 
-  if(!oldPassword || !oldPassword) {
+  if(!newPassword || !oldPassword) {
     return next(new ErrorHandler("Please enter both passwords", 400));
   }
 
@@ -344,4 +345,15 @@ export const deleteUser = catchAsyncError(async (req, res, next) => {
       success: true,
       message: "User deleted successfully."
     })
+})
+
+User.watch().on("change", async () => {
+  const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
+  const subbedUsers = await User.find({ "subscription.status": "active" });
+  
+  stats[0].users = await User.countDocuments();
+  stats[0].subscriptions = subbedUsers.length;
+  stats[0].createdAt = new Date(Date.now());
+
+  await stats[0].save();
 })
