@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import ErrorMiddleware from "./middlewares/Error.js";
+import ErrorMiddleware from "./middlewares/error.js";
 import cors from "cors";
 
 dotenv.config({
