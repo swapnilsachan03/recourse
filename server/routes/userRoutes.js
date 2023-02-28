@@ -12,7 +12,7 @@ router.route("/register").post(singleUpload, register);
 router.route("/login").post(login);
 
 // Logout
-router.route("/logout").get(logout);
+router.route("/logout").post(logout);
 
 // Get my profile
 router.route("/getProfile").get(isAuthenticated, getMyProfile);
