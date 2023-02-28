@@ -71,7 +71,10 @@ export const login = catchAsyncError(async (req, res, next) => {
 export const logout = catchAsyncError(async (req, res, next) => {
   res
     .status(200)
-    .clearCookie("token")
+    .clearCookie("token", {
+      domain: "recourse-backend.vercel.app",
+      path: "/",
+    })
     .json({
       success: true,
       message: "Logged out successfully."
