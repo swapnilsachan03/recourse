@@ -3,8 +3,10 @@ import React from "react";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from "react-icons/ri"
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/user";
 
-const Header = () => {
+const Header = ({ isAuthenticated = false, user }) => {
   const {isOpen, onOpen, onClose} = useDisclosure();
 
   const SidebarButton = (props) => {
@@ -15,14 +17,11 @@ const Header = () => {
     );
   }
 
-  const logoutHandler = () => {
-    console.log("Dummy logged out!");
-    onClose();
-  }
+  const dispatch = useDispatch();
 
-  const isAuthenticated = true;
-  const user = {
-    role: "admin",
+  const logoutHandler = () => {
+    onClose();
+    dispatch(logout());
   }
 
   return (
