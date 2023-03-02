@@ -71,11 +71,9 @@ export const login = catchAsyncError(async (req, res, next) => {
 export const logout = catchAsyncError(async (req, res, next) => {
   res
     .status(200)
-    .cookie("token", null, {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-      secure: true,
-      sameSite: "none"
+    .clearCookie("token", {
+      domain: "https://recourse-backend.vercel.app",
+      path: "/"
     })
     .json({
       success: true,
