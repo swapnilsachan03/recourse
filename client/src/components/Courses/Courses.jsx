@@ -1,10 +1,24 @@
-import { Button, Container, Heading, HStack, Image, Input, Stack, Text, VStack } from "@chakra-ui/react";
-import { React, useState } from "react";
+import { Button, Container, Heading, HStack, Image, Input, Stack, Text, useColorModeValue, VStack } from "@chakra-ui/react";
+import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCourses } from "../../redux/actions/course";
+import { addToPlaylist } from "../../redux/actions/profile";
+import { toast } from "react-hot-toast";
+import { getUser } from "../../redux/actions/user";
 
-const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, description, lectureCount}) => {
+const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, description, lectureCount, loading}) => {
   return (
-    <VStack className="course" alignItems={["center", "flex-start"]}>
+    <VStack
+      className="course"
+      alignItems={["center", "flex-start"]}
+      padding={"8"}
+      bgColor={useColorModeValue("gray.100", "gray.800")}
+      border={"1px solid"}
+      borderColor={useColorModeValue("gray.300", "gray.700")}
+      borderRadius={"8"}
+      boxShadow={"lg"}
+    >
       <Image src={imageSrc} boxSize="60" objectFit={"contain"} />
       
       <Heading 
@@ -15,6 +29,7 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
         noOfLines={"3"} 
         children={title}
       />
+      
       <Text noOfLines={2} children={description} />
 
       <HStack>
@@ -45,15 +60,16 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
 
       <Stack direction={["column", "row"]} alignItems="center">
         <Link to={`/course/${id}`}>
-          <Button colorScheme={"yellow"}>
+          <Button colorScheme={"blue"}>
             Watch Now
           </Button>
         </Link>
 
         <Button 
           variant={"ghost"} 
-          colorScheme={"yellow"}
+          colorScheme={"blue"}
           onClick={() => addToPlaylistHandler(id)}
+          isLoading={loading}
         >
           Add to Playlist
         </Button>
@@ -65,12 +81,29 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
 const Courses = () => {
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("");
+  const dispatch = useDispatch();
 
-  const addToPlaylistHandler = (id) => {
-    console.log(id + " Added to playlist.");
+  const addToPlaylistHandler = async (courseId) => {
+    await dispatch(addToPlaylist(courseId)); 
+    dispatch(getUser());
   }
 
   const categories = ["Web Development", "Artificial Intelligence", "Data Structures & Algorithms", "Data Science", "App Development"];
+
+  const { loading, courses, error, message } = useSelector(state => state.courses);
+
+  useEffect(() => {
+    dispatch(getAllCourses(category, keyword));
+
+    if(error) {
+      toast.error(error);
+      dispatch({type: "clearError"});
+    }
+    if(message) {
+      toast.success(message);
+      dispatch({type: "clearMessage"});
+    }
+  }, [category, keyword, dispatch, error, message])
 
   return (
     <Container minH={"95vh"} maxW={"container.lg"} paddingY="8">
@@ -79,7 +112,7 @@ const Courses = () => {
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)} placeholder="Search a course..."
         type={"text"}
-        focusBorderColor="yellow.500"
+        focusBorderColor="blue.500"
       />
 
       <HStack
@@ -104,16 +137,24 @@ const Courses = () => {
         justifyContent={["flex-start", "space-evenly"]}
         alignItems={["center", "flex-start"]}
       >
-        <CourseCard
-          title="Sample"
-          description="Sample description"
-          views={23}
-          imageSrc={"https://cdn.pixabay.com/photo/2023/01/09/12/49/ferns-7707348_960_720.jpg"}
-          id={324}
-          creator={"swapnil"}
-          lectureCount={12}
-          addToPlaylistHandler={addToPlaylistHandler}
-        />
+        {
+          courses.length > 0 ? courses.map((item, index) => (
+            <CourseCard
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              views={item.views}
+              imageSrc={item.poster.url}
+              id={item._id}
+              creator={item.createdBy}
+              lectureCount={item.numOfVideos}
+              addToPlaylistHandler={addToPlaylistHandler}
+              loading={loading}
+            />
+          )) : (
+            <Heading children="No courses found!" />
+          )
+        }
       </Stack>
     </Container>
   )

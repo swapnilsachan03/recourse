@@ -29,7 +29,7 @@ const Header = ({ isAuthenticated = false, user }) => {
       <ColorModeSwitcher />
       <Button
         onClick={onOpen}
-        colorScheme={"yellow"}
+        colorScheme={"blue"}
         width={"12"}
         height={"12"}
         rounded={"full"}
@@ -67,10 +67,10 @@ const Header = ({ isAuthenticated = false, user }) => {
                       <HStack justifyContent={"center"}>
 
                         <Link onClick={onClose} to="/profile">
-                          <Button colorScheme={"yellow"}>Profile</Button>
+                          <Button colorScheme={"blue"}>Profile</Button>
                         </Link>
 
-                        <Button variant={"ghost"} colorScheme={"yellow"} onClick={logoutHandler} >
+                        <Button variant={"ghost"} colorScheme={"blue"} onClick={logoutHandler} >
                           <RiLogoutBoxLine style={{marginRight: "5px"}} /> Logout
                         </Button>
 
@@ -89,13 +89,13 @@ const Header = ({ isAuthenticated = false, user }) => {
 
                   (<>
                     <Link onClick={onClose} to="/login">
-                      <Button colorScheme={"yellow"}>Login</Button>
+                      <Button colorScheme={"blue"}>Login</Button>
                     </Link>
 
                     <p style={{fontStyle: "italic"}}>or</p>
 
                     <Link onClick={onClose} to="/register">
-                      <Button colorScheme={"yellow"}>Sign Up</Button>
+                      <Button colorScheme={"blue"}>Sign Up</Button>
                     </Link>
                   </>)
                 }

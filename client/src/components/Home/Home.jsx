@@ -24,7 +24,7 @@ const Home = () => {
                     <Text textAlign={["center","left"]} children="Find valuable content at reasonable prices!" fontSize={"20px"} />
 
                     <Link to="/courses">
-                        <Button size={"lg"} colorScheme={"yellow"}>
+                        <Button size={"lg"} colorScheme={"blue"}>
                             Explore more
                         </Button>
                     </Link>
@@ -35,7 +35,7 @@ const Home = () => {
         </div>
 
         <Box padding={"8"} bg={"blackAlpha.800"} >
-            <Heading textAlign={"center"} fontFamily={"body"} color={"yellow.400"} children="Our Brands" />
+            <Heading textAlign={"center"} fontFamily={"body"} color={"blue.400"} children="Our Brands" />
 
             <HStack className="brands-banner" justifyContent={"space-evenly"} marginTop="4" >
                 <CgGoogle />

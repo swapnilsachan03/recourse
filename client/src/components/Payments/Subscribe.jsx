@@ -13,7 +13,7 @@ const Subscribe = () => {
         spacing="0"
       >
         <Box
-          bg={"yellow.400"} 
+          bg={"blue.400"} 
           padding="4"
           css={{borderRadius: "8px 8px 0 0"}}
         >
@@ -29,7 +29,7 @@ const Subscribe = () => {
             <Heading size={"md"} children={"₹ 299 only /-"} />
           </VStack>
 
-          <Button marginY="8" width={"full"} colorScheme="yellow">
+          <Button marginY="8" width={"full"} colorScheme="blue">
             Buy Now
           </Button>
         </Box>

@@ -24,7 +24,7 @@ const Request = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
               type={"text"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -37,7 +37,7 @@ const Request = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="johndoe@gmail.com"
               type={"email"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
 
@@ -50,7 +50,7 @@ const Request = () => {
               onChange={(e) => setCourseName(e.target.value)}
               placeholder="Name of the course"
               type={"text"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -63,18 +63,18 @@ const Request = () => {
               onChange={(e) => setCourseDesc(e.target.value)}
               placeholder="Course description"
               type={"text"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
-          <Button marginY={"4"} colorScheme={"yellow"} type="submit">
+          <Button marginY={"4"} colorScheme={"blue"} type="submit">
             Send Mail
           </Button>
 
           <Box marginY={"4"}>
               Want to see available courses? {" "}
               <Link to="/courses">
-                <Button variant="link" colorScheme={"yellow"}>
+                <Button variant="link" colorScheme={"blue"}>
                   Click
                 </Button>
               </Link>

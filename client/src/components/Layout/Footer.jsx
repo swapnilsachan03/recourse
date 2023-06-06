@@ -14,7 +14,7 @@ const Footer = () => {
             fontFamily={"body"} 
             size="sm" 
             children="@Swapnil Sachan" 
-            color={"yellow.400"} 
+            color={"blue.400"} 
           />
 
         </VStack>
@@ -25,13 +25,13 @@ const Footer = () => {
           color={"white"}
           fontSize={"50"}
         >
-          <a href="https://www.youtube.com/@swapnil-sachan" target={"_blank"}>
+          <a href="https://www.youtube.com/@swapnil-sachan" target={"_blank"} rel='noreferrer'>
             <TiSocialYoutubeCircular />
           </a>
-          <a href="https://www.instagram.com/swapnilsachan03" target={"_blank"}>
+          <a href="https://www.instagram.com/swapnilsachan03" target={"_blank"} rel='noreferrer'>
             <TiSocialInstagramCircular />
           </a>
-          <a href="https://www.github.com/maybe-swapnil" target={"_blank"}>
+          <a href="https://www.github.com/maybe-swapnil" target={"_blank"} rel='noreferrer'>
             <TiSocialGithubCircular />
           </a>
         </HStack>

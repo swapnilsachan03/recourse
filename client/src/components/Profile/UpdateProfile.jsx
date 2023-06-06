@@ -1,13 +1,29 @@
 import { Button, Container, Heading, Input, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { updateProfile } from '../../redux/actions/profile';
+import { getUser } from '../../redux/actions/user';
 
-const UpdateProfile = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+const UpdateProfile = ({ user }) => {
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.profile);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    
+    await dispatch(updateProfile({name, email}));
+    dispatch(getUser());
+    navigate("/profile");
+  }
 
   return (
     <Container paddingY={"16"} minH={"90vh"}>
-      <form>
+      <form onSubmit={submitHandler}>
         <Heading
           children="Update Profile"
           marginY={"16"}
@@ -20,7 +36,7 @@ const UpdateProfile = () => {
             onChange={(e) => setName(e.target.value)}
             placeholder="John Doe"
             type={"text"}
-            focusBorderColor={"yellow.500"}
+            focusBorderColor={"blue.500"}
           />
           
           <Input
@@ -28,10 +44,15 @@ const UpdateProfile = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="johndoe@gmail.com"
             type={"email"}
-            focusBorderColor={"yellow.500"}
+            focusBorderColor={"blue.500"}
           />
 
-          <Button width={"full"} colorScheme={"yellow"} type={"submit"}>
+          <Button
+            isLoading={loading}
+            width={"full"}
+            colorScheme={"blue"}
+            type={"submit"}
+          >
             Update Profile
           </Button>
         </VStack>

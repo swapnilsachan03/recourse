@@ -20,7 +20,7 @@ const PaymentSuccess = () => {
       >
         <Box
           width={"full"}
-          bg="yellow.400"
+          bg="blue.400"
           padding={"4"}
           css={{borderRadius: "8px 8px 0 0"}}
         >

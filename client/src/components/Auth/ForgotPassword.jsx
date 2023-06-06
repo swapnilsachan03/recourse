@@ -1,26 +1,54 @@
 import { Button, Container, Heading, Input, VStack } from '@chakra-ui/react';
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { forgetPassword } from '../../redux/actions/profile';
+import { toast } from 'react-hot-toast';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  
+  const { loading, message, error } = useSelector(state => state.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(message) {
+      toast.success(message)
+      dispatch({ type: "clearMessage" })
+    }
+    
+    if(error) {
+      toast.error(error)
+      dispatch({ type: "clearError" })
+    }
+  }, [dispatch, error, message])
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(forgetPassword(email))
+  }
 
   return (
     <Container paddingY={"16"} height="85vh">
-      <form>
+      <form onSubmit={submitHandler}>
         <Heading children="Enter Your E-mail" marginY={"16"} textAlign={"center"} />
 
         <VStack>
           <Input 
-            required 
-            id="email" 
+            required
+            id="email"
             value={email} 
             onChange={(e) => setEmail(e.target.value)}
             placeholder="johndoe@gmail.com"
             type={"email"}
-            focusBorderColor={"yellow.500"}
+            focusBorderColor={"blue.500"}
           />
         
-        <Button type="submit" w="full" colorScheme={"yellow"}>
+        <Button
+          isLoading={loading}
+          type="submit"
+          w="full"
+          colorScheme={"blue"}
+        >
           Send Reset Link
         </Button>
 

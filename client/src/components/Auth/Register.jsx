@@ -2,6 +2,8 @@ import { Avatar, Box, Button, Container, FormLabel, Heading, Input, VStack } fro
 import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fileUploadCSS } from "../../assets/fileUploadCSS";
+import { useDispatch } from 'react-redux';
+import { register } from '../../redux/actions/user';
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,6 +11,8 @@ const Register = () => {
   const [image, setImage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const fileUploadStyle = {
     "&::file-selector-button": fileUploadCSS
@@ -25,12 +29,24 @@ const Register = () => {
     }
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const registerForm = new FormData();
+
+    registerForm.append("name", name);
+    registerForm.append("email", email);
+    registerForm.append("password", password);
+    registerForm.append("file", image);
+
+    dispatch(register(registerForm));
+  }
+
   return (
     <Container h={"95vh"}>
       <VStack h={"full"} justifyContent={"center"} spacing={"16"}>
         <Heading children={"Register on reCourse"} />
 
-        <form style={{width: "100%"}}>
+        <form onSubmit={submitHandler} style={{width: "100%"}}>
           <Box marginY={"4"} display={"flex"} justifyContent={"center"} >
             <Avatar src={imagePrev} size={"2xl"} />
           </Box>
@@ -44,7 +60,7 @@ const Register = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
               type={"text"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -57,7 +73,7 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="johndoe@gmail.com"
               type={"email"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -70,7 +86,7 @@ const Register = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password here"
               type={"password"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -81,20 +97,20 @@ const Register = () => {
               required 
               id="password"
               type={"file"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
               css={fileUploadStyle}
               onChange={changeImageHandler}
             />
           </Box>
       
-          <Button marginY={"4"} colorScheme={"yellow"} type="submit">
+          <Button marginY={"4"} colorScheme={"blue"} type="submit">
             Sign Up
           </Button>
 
           <Box marginY={"4"}>
             Already a user? {" "}
             <Link to="/register">
-              <Button variant="link" colorScheme={"yellow"}>
+              <Button variant="link" colorScheme={"blue"}>
                 Log in
               </Button>
             </Link>

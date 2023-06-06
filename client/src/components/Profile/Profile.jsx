@@ -1,36 +1,45 @@
 import { Avatar, Button, Container, Heading, HStack, Image, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useDisclosure, VStack } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fileUploadCSS } from "../../assets/fileUploadCSS"
+import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile';
+import { getUser } from '../../redux/actions/user';
+import toast from "react-hot-toast";
 
-const Profile = () => {
-  const user = {
-    name: "Swapnil Sachan",
-    email: "swapnil@gmail.com",
-    joinedOn: String(new Date().toDateString()),
-    role: "user",
-    subscription: {
-      status: "active"
-    },
-    playlist: [
-      {
-        course: "'hsh778", poster: "https://cdn.pixabay.com/photo/2023/01/09/12/49/ferns-7707348_960_720.jpg"
-      }
-    ]
-  };
+const Profile = ({ user }) => {
+  const dispatch = useDispatch();
+  const { loading, message, error } = useSelector((state) => state.profile);
 
-  const removeFromPlaylistHandler = (id) => {
-    console.log(id);
+  const removeFromPlaylistHandler = async (id) => {
+    await dispatch(removeFromPlaylist(id));
+    dispatch(getUser());
   }
+
+  const imageSubmitHandler = (e, image) => {
+    e.preventDefault();
+    const myForm = new FormData();
+    
+    myForm.append("file", image);
+    dispatch(updateProfilePicture(myForm));
+    dispatch(getUser());
+  }
+
+  useEffect(() => {
+    if(error) {
+      toast.error(error);
+      dispatch({ type: "clearError"});
+    }
+
+    if(message) {
+      toast.success(message);
+      dispatch({ type: "clearMessage"});
+    }
+  }, [dispatch, error, message]);
 
   const {isOpen, onOpen, onClose} = useDisclosure();
-
-  const picSubmitHandler = (e, image) => {
-    e.preventDefault();
-    console.log("nothing");
-  }
 
   return (
     <Container minH={"95vh"} maxW={"container.lg"} paddingY={"8"}>
@@ -44,9 +53,13 @@ const Profile = () => {
         padding={"8"}
       >
         <VStack>
-          <Avatar boxSize={"48"} />
+          <Avatar boxSize={"48"} src={user.avatar.url} />
 
-          <Button onClick={onOpen} colorScheme={"yellow"} variant={"ghost"}>
+          <Button
+            onClick={onOpen}
+            colorScheme={"blue"}
+            variant={"ghost"}
+          >
             Change Photo
           </Button>
         </VStack>
@@ -67,18 +80,18 @@ const Profile = () => {
           
           <HStack>
             <Text children="Member since: " fontWeight={"bold"} />
-            <Text children={user.joinedOn} />
+            <Text children={user.createdAt} />
           </HStack>
 
           { user.role !== "admin" && (
             <HStack>
               <Text children="Subscription status" fontWeight={"bold"} />
               {
-                user.subscription.status === "active" ? (
-                  <Button color={"yellow.500"} variant={"link"}>Cancel Subscription</Button>
+                user.subscription && user.subscription.status === "active" ? (
+                  <Button color={"blue.500"} variant={"link"}>Cancel Subscription</Button>
                 ) : (
                   <Link to="/subscribe">
-                    <Button colorScheme={"yellow"}>Subscribe</Button>
+                    <Button colorScheme={"blue"}>Subscribe</Button>
                   </Link>
                 )
               }
@@ -110,18 +123,19 @@ const Profile = () => {
         >
           {
             user.playlist.map((element) => {
+              console.log(element);
               return (
                 <VStack width={"48"} margin={"2"} key={element.course}>
                   <Image boxSize={"full"} objectFit={"contain"} src={element.poster} />
 
                   <HStack>
                     <Link to={`/course/${element.course}`}>
-                      <Button variant={"ghost"} colorScheme={"yellow"}>
+                      <Button variant={"ghost"} colorScheme={"blue"}>
                         Watch Now
                       </Button>
                     </Link>
 
-                    <Button onClick={() => removeFromPlaylistHandler(element.course)}>
+                    <Button isLoading={loading} onClick={() => removeFromPlaylistHandler(element.course)}>
                       <RiDeleteBin7Fill />
                     </Button>
                   </HStack>
@@ -132,14 +146,19 @@ const Profile = () => {
         </Stack>
       )}
 
-      <ChangeProfilePic picSubmitHandler={picSubmitHandler} isOpen={isOpen} onClose={onClose} />
+      <ChangeProfilePic
+        loading={loading}
+        imageSubmitHandler={imageSubmitHandler}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </Container>
   )
 }
 
 export default Profile
 
-const ChangeProfilePic = ({isOpen, onClose, picSubmitHandler}) => {
+const ChangeProfilePic = ({isOpen, onClose, imageSubmitHandler, loading}) => {
   const [image, setImage] = useState("");
   const [imagePrev, setImagePrev] = useState("");
 
@@ -173,7 +192,7 @@ const ChangeProfilePic = ({isOpen, onClose, picSubmitHandler}) => {
 
         <ModalBody>
           <Container>
-            <form onSubmit={(e) => picSubmitHandler(e, image)}>
+            <form onSubmit={(e) => imageSubmitHandler(e, image)}>
               <VStack spacing={"8"}>
                 { imagePrev && <Avatar src={imagePrev} boxSize={"48"} /> }
 
@@ -183,7 +202,12 @@ const ChangeProfilePic = ({isOpen, onClose, picSubmitHandler}) => {
                   onChange={changeImageHandler}
                 />
 
-                <Button width={"full"} colorScheme={"yellow"} type={"submit"}>
+                <Button
+                  isLoading={loading}
+                  width={"full"}
+                  colorScheme={"blue"}
+                  type={"submit"}
+                >
                   Update
                 </Button>
               </VStack>

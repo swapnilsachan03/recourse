@@ -23,7 +23,7 @@ const Contact = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
               type={"text"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -36,7 +36,7 @@ const Contact = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="johndoe@gmail.com"
               type={"email"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
@@ -49,18 +49,18 @@ const Contact = () => {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Enter your message"
               type={"text"}
-              focusBorderColor={"yellow.500"}
+              focusBorderColor={"blue.500"}
             />
           </Box>
           
-          <Button marginY={"4"} colorScheme={"yellow"} type="submit">
+          <Button marginY={"4"} colorScheme={"blue"} type="submit">
             Send Mail
           </Button>
 
           <Box marginY={"4"}>
               Want a new course? {" "}
               <Link to="/request">
-                <Button variant="link" colorScheme={"yellow"}>
+                <Button variant="link" colorScheme={"blue"}>
                   Request
                 </Button>
               </Link>
