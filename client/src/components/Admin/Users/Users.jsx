@@ -1,69 +1,68 @@
-import { Box, Button, Grid, Heading, HStack, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import React from 'react'
+import {
+  Box,
+  Button,
+  Grid,
+  Heading,
+  HStack,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
+import React, { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
-import Sidebar from '../Sidebar'
+import Sidebar from '../Sidebar';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteUser,
+  getAllUsers,
+  updateUserRole,
+} from '../../../redux/actions/admin';
+import { toast } from 'react-hot-toast';
 
 const Users = () => {
-  const users = [
-    {
-      _id: "y732y7",
-      name: "Swapnil",
-      role: "admin",
-      subscription: {
-        status: "active"
-      },
-      email: "swapnil@gmail.com"
-    },
-    {
-      _id: "y732y7",
-      name: "Swapnil",
-      role: "admin",
-      subscription: {
-        status: "active"
-      },
-      email: "swapnil@gmail.com"
-    },
-    {
-      _id: "y732y7",
-      name: "Swapnil",
-      role: "admin",
-      subscription: {
-        status: "active"
-      },
-      email: "swapnil@gmail.com"
-    },
-  ];
+  const { users, loading, error, message } = useSelector(state => state.admin);
 
-  const changeRoleHandler = (userId) => {
-    console.log(userId);
-  }
+  const dispatch = useDispatch();
 
-  const deleteUserHandler = (userId) => {
-    console.log(userId);
-  }
+  const updateHandler = userId => {
+    dispatch(updateUserRole(userId));
+  };
+  const deleteButtonHandler = userId => {
+    dispatch(deleteUser(userId));
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (message) {
+      toast.success(message);
+    }
+    dispatch(getAllUsers());
+  }, [dispatch, error, message]);
 
   return (
-    <Grid
-      minH={"100vh"}
-      templateColumns={["1fr", "5fr 1fr"]}
-    >
-      <Box padding={["0", "16"]} overflowX={"auto"}>
+    <Grid minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
+      <Box p={['0', '16']} overflowX="auto">
         <Heading
           children="All Users"
-          textAlign={["center", "left"]}
-          marginY={"16"}
+          my={'10'}
+          textAlign={'center'}
+          fontFamily={"Poppins"}
         />
 
-        <TableContainer width={["100vw", "full"]}>
-          <Table variant={"simple"} size="lg">
-
-            <TableCaption>
-              All registered users in the DB
-            </TableCaption>
+        <TableContainer w={['100vw', 'full']}>
+          <Table variant={'simple'} size="lg">
+            <TableCaption>All available users in the database</TableCaption>
 
             <Thead>
               <Tr>
-                <Th>ID</Th>
+                <Th>Id</Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
                 <Th>Role</Th>
@@ -71,56 +70,60 @@ const Users = () => {
                 <Th isNumeric>Action</Th>
               </Tr>
             </Thead>
-
             <Tbody>
-              {
-                users.map((element, index) => {
-                  return (
-                    <Row
-                      key={index}
-                      element={element}
-                      changeRoleHandler={changeRoleHandler}
-                      deleteUserHandler={deleteUserHandler}
-                    />
-                  )
-                })
-              }
+              {users &&
+                users.map(item => (
+                  <Row
+                    key={item._id}
+                    item={item}
+                    updateHandler={updateHandler}
+                    deleteButtonHandler={deleteButtonHandler}
+                    loading={loading}
+                  />
+                ))}
             </Tbody>
-
           </Table>
         </TableContainer>
       </Box>
 
       <Sidebar />
     </Grid>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;
 
-const Row = ({element, changeRoleHandler, deleteUserHandler}) => {
+function Row({ item, updateHandler, deleteButtonHandler, loading }) {
   return (
     <Tr>
-      <Td>{element._id}</Td>
-      <Td>{element.name}</Td>
-      <Td>{element.email}</Td>
-      <Td>{element.role}</Td>
-      <Td>{element.subscription.status === "active" ? "Active" : "Not Active"}</Td>
-
+      <Td>#{item._id}</Td>
+      <Td>{item.name}</Td>
+      <Td>{item.email}</Td>
+      <Td>{item.role}</Td>
+      <Td>
+        {item.subscription && item.subscription.status === 'active'
+          ? 'Active'
+          : 'Not Active'}
+      </Td>
       <Td isNumeric>
-        <HStack justifyContent={"flex-end"}>
-          
-          <Button variant={"outline"} color={"purple.500"} onClick={() => changeRoleHandler(element._id)}>
+        <HStack justifyContent={'flex-end'}>
+          <Button
+            variant={'outline'}
+            color="purple.500"
+            onClick={() => updateHandler(item._id)}
+            isLoading={loading}
+          >
             Change Role
           </Button>
-
-          <Button color={"purple.600"} onClick={() => deleteUserHandler(element._id)}>
+          <Button
+            color={'purple.600'}
+            onClick={() => deleteButtonHandler(item._id)}
+            isLoading={loading}
+          >
             <RiDeleteBin7Fill />
           </Button>
-
         </HStack>
       </Td>
-
     </Tr>
-  )
+  );
 }

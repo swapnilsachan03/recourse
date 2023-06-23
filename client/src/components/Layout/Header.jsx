@@ -70,7 +70,7 @@ const Header = ({ isAuthenticated = false, user }) => {
                           <Button colorScheme={"blue"}>Profile</Button>
                         </Link>
 
-                        <Button variant={"ghost"} colorScheme={"blue"} onClick={logoutHandler} >
+                        <Button variant={"outline"} colorScheme={"blue"} onClick={logoutHandler} >
                           <RiLogoutBoxLine style={{marginRight: "5px"}} /> Logout
                         </Button>
 

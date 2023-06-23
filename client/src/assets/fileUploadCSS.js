@@ -4,6 +4,6 @@ export const fileUploadCSS = {
   border:"none",
   width:"110%",
   height:"100%",
-  color:"#ECC94B",
+  color: "#3b82f6",
   backgroundColor:"transparent"
 }

@@ -26,7 +26,14 @@ const breakpoints = {
   '2xl': "90em",
 };
 
-// 5. extend the theme
-const theme = extendTheme({ config, styles, breakpoints })
+// 5. Adding custom fonts
+
+const fonts = {
+  heading: "Roboto",
+  body: "Roboto",
+};
+
+// 6. extend the theme
+const theme = extendTheme({ config, styles, breakpoints, fonts })
 
 export default theme

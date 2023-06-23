@@ -11,7 +11,8 @@ const CourseModal = ({
   isOpen,
   onClose,
   deleteLectureHandler,
-  addLectureHandler
+  addLectureHandler,
+  loading
 }) => {
 
   const [title, setTitle] = useState();
@@ -59,15 +60,19 @@ const CourseModal = ({
               </Box>
 
               <Heading children="Lectures" size={"lg"} />
-              <VideoCard
-                title="Introduction to react"
-                description="The frist video of the course where we'll study the basics of React"
-                num={1}
-                lectureId={"8382lecture"}
-                courseId={id}
-                deleteLectureHandler={deleteLectureHandler}
-                addLectureHandler={addLectureHandler}
-              />
+              
+              {lectures.map((item, i) => (
+                <VideoCard
+                  key={i}
+                  title={item.title}
+                  description={item.description}
+                  num={i + 1}
+                  lectureId={item._id}
+                  courseId={id}
+                  deleteLectureHandler={deleteLectureHandler}
+                  loading={loading}
+                />
+              ))}
             </Box>
 
             <Box>
@@ -111,6 +116,7 @@ const CourseModal = ({
                   )}
 
                   <Button
+                    children={"Upload"}
                     width={"full"}
                     colorScheme={"purple"}
                     type={"submit"}
@@ -134,7 +140,7 @@ const CourseModal = ({
 
 export default CourseModal
 
-const VideoCard = ({title, description, num, lectureId, courseId, deleteLectureHandler, addLectureHandler}) => {
+const VideoCard = ({title, description, num, lectureId, courseId, deleteLectureHandler}) => {
   return (
     <Stack
       direction={["column", "row"]}

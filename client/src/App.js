@@ -70,7 +70,7 @@ function App() {
           </Route>
 
           <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/course/:id" element={<CourseDetails />}></Route>
+          <Route path="/course/:id" element={<CourseDetails user={user} />}></Route>
           <Route path="/courses" element={<Courses />}></Route>
           
           <Route

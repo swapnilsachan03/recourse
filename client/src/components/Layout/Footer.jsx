@@ -1,38 +1,37 @@
-import { Box, Heading, HStack, Stack, VStack } from '@chakra-ui/react';
-import { TiSocialGithubCircular, TiSocialInstagramCircular, TiSocialYoutubeCircular } from 'react-icons/ti';
-import {} from 'react-icons/di';
+import { Box, Heading, HStack, Stack, Text, VStack } from '@chakra-ui/react';
+import { AiFillGithub, AiFillYoutube, AiOutlineInstagram } from "react-icons/ai";
 import React from 'react';
 
 const Footer = () => {
   return (
-    <Box padding={"4"} bg={"blackAlpha.900"} minH={"15vh"}>
+    <Box paddingX={"4"} py={"12"} bg={"blackAlpha.900"}>
       <Stack direction={["column", "row"]}>
-        <VStack alignItems={["center", "flex-start"]} width={"full"}>
+        <VStack alignItems={["center", "flex-start"]} justifyContent={"between"} width={"full"}>
           
-          <Heading children="All rights reserved" color={"white"} />
-          <Heading 
+          <Heading children="All rights reserved." color={"white"} fontWeight={"thin"} fontSize={"4xl"} />
+          <Text
             fontFamily={"body"} 
-            size="sm" 
-            children="@Swapnil Sachan" 
+            size="sm"
+            children="© Swapnil Sachan" 
             color={"blue.400"} 
           />
 
         </VStack>
 
         <HStack 
-          spacing={["2", "10"]} 
+          spacing={["2", "4"]} 
           justifyContent="center"
           color={"white"}
-          fontSize={"50"}
+          fontSize={"36"}
         >
           <a href="https://www.youtube.com/@swapnil-sachan" target={"_blank"} rel='noreferrer'>
-            <TiSocialYoutubeCircular />
+            <AiFillYoutube />
           </a>
           <a href="https://www.instagram.com/swapnilsachan03" target={"_blank"} rel='noreferrer'>
-            <TiSocialInstagramCircular />
+            <AiOutlineInstagram />
           </a>
-          <a href="https://www.github.com/maybe-swapnil" target={"_blank"} rel='noreferrer'>
-            <TiSocialGithubCircular />
+          <a href="https://www.github.com/swapnil-sachan" target={"_blank"} rel='noreferrer'>
+            <AiFillGithub />
           </a>
         </HStack>
       </Stack>

@@ -42,8 +42,13 @@ const Profile = ({ user }) => {
   const {isOpen, onOpen, onClose} = useDisclosure();
 
   return (
-    <Container minH={"95vh"} maxW={"container.lg"} paddingY={"8"}>
-      <Heading children={"Profile"} margin={"8"} />
+    <Container minH={"100vh"} maxW={"container.lg"} paddingY={"8"}>
+      <Heading
+        children={"Profile"}
+        marginY={"8"}
+        fontSize={"5xl"}
+        textAlign={"center"}
+      />
 
       <Stack
         justifyContent={"center"}
@@ -113,24 +118,42 @@ const Profile = ({ user }) => {
         </VStack>
       </Stack>
 
-      <Heading children={"Playlist"} size={"md"} marginY={"8"} />
+      <hr/>
+
+      <Heading
+        children={"Playlist"}
+        size={"lg"}
+        marginY={"10"}
+        fontWeight={"semibold"}
+      />
+
       { user.playlist.length > 0 && (
         <Stack
           flexWrap={"wrap"}
           direction={["column", "row"]}
           alignItems={"center"}
-          padding={"4"}
         >
           {
             user.playlist.map((element) => {
-              console.log(element);
               return (
-                <VStack width={"48"} margin={"2"} key={element.course}>
-                  <Image boxSize={"full"} objectFit={"contain"} src={element.poster} />
+                <VStack
+                  width={"48"}
+                  padding={"3"}
+                  border={"1px"}
+                  borderRadius={"md"}
+                  key={element.course}
+                  borderColor={"gray.400"}
+                >
+                  <Image
+                    boxSize={"full"}
+                    objectFit={"contain"}
+                    src={element.poster}
+                    borderRadius={"md"}
+                  />
 
-                  <HStack>
+                  <HStack alignItems={"flex-start"}>
                     <Link to={`/course/${element.course}`}>
-                      <Button variant={"ghost"} colorScheme={"blue"}>
+                      <Button variant={"outline"} colorScheme={"blue"}>
                         Watch Now
                       </Button>
                     </Link>

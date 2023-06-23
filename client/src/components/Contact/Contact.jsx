@@ -8,7 +8,7 @@ const Contact = () => {
   const [message, setMessage] = useState("");
 
   return (
-    <Container height={"85vh"}>
+    <Container height={"100vh"}>
       <VStack height={"full"} justifyContent={"center"} spacing="16">
         <Heading children="Contact Us" />
 

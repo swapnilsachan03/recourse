@@ -9,7 +9,7 @@ const Request = () => {
   const [courseDesc, setCourseDesc] = useState("");
 
   return (
-    <Container height={"85vh"}>
+    <Container height={"100vh"}>
       <VStack height={"full"} justifyContent={"center"} spacing="16">
         <Heading children="Request a Course" />
 

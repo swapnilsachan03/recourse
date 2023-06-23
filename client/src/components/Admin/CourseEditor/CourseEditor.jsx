@@ -1,67 +1,104 @@
-import { Box, Button, Grid, Heading, HStack, Image, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import {
+  Box,
+  Button,
+  Grid,
+  Heading,
+  HStack,
+  Image,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useDisclosure,
+} from '@chakra-ui/react';
+
+import React, { useEffect, useState } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
-import Sidebar from '../Sidebar'
+import Sidebar from '../Sidebar';
 import CourseModal from './CourseModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCourses, getCourseLectures } from '../../../redux/actions/course';
+import { addLecture, deleteCourse, deleteLecture } from '../../../redux/actions/admin';
+import { toast } from 'react-hot-toast';
 
-const CourseEditor = () => {
-  const {isOpen, onOpen, onClose} = useDisclosure();
+const AdminCourses = () => {
+  const { courses, lectures } = useSelector((state) => state.courses);
+  const { loading, error, message } = useSelector((state) => state.admin);
 
-  const courses = [
-    {
-      _id: "y732y7",
-      poster: {
-        url: "https://cdn.pixabay.com/photo/2023/01/09/12/49/ferns-7707348_960_720.jpg"
-      },
-      title: "React Course",
-      category: "Web Development",
-      createdBy: "Swapnil Sachan aur falana dhimkana",
-      views: 6321,
-      numOfVideos: 12
-    },
-  ];
+  const dispatch = useDispatch();
 
-  const courseDetailsHandler = (userId) => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const [courseId, setCourseId] = useState('');
+  const [courseTitle, setCourseTitle] = useState('');
+
+  const courseDetailsHandler = (courseId, title) => {
+    dispatch(getCourseLectures(courseId));
     onOpen();
-  }
+    setCourseId(courseId);
+    setCourseTitle(title);
+  };
 
-  const deleteCourseHandler = (userId) => {
-    console.log(userId);
-  }
+  const deleteButtonHandler = courseId => {
+    dispatch(deleteCourse(courseId));
+  };
 
-  const deleteLectureHandler = ({courseId, lectureId}) => {
-    console.log(courseId);
-    console.log(lectureId);
-  }
+  const deleteLectureHandler = async (courseId, lectureId) => {
+    await dispatch(deleteLecture(courseId, lectureId));
+    dispatch(getCourseLectures(courseId));
+  };
 
-  const addLectureHandler = ({e, courseId, title, description, video}) => {
+  const addLectureHandler = async (
+    e,
+    courseId,
+    title,
+    description,
+    video
+  ) => {
     e.preventDefault();
-  }
+    const myForm = new FormData();
+
+    myForm.append('title', title);
+    myForm.append('description', description);
+    myForm.append('file', video);
+
+    await dispatch(addLecture(courseId, myForm));
+    dispatch(getCourseLectures(courseId));
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (message) {
+      toast.success(message);
+    }
+    dispatch(getAllCourses());
+  }, [dispatch, error, message]);
 
   return (
-    <Grid
-      minH={"100vh"}
-      templateColumns={["1fr", "5fr 1fr"]}
-    >
-      <Box padding={["0", "8"]} overflowX={"auto"}>
+    <Grid minH={'100vh'} templateColumns={['1fr', '5fr 1fr']}>
+      <Box p={['0', '8']} overflowX="auto">
         <Heading
           children="All Courses"
-          textAlign={["center", "left"]}
-          marginY={"16"}
+          my={'16'}
+          textAlign={"center"}
+          fontFamily={"Poppins"}
         />
 
-        <TableContainer width={["100vw", "full"]}>
-          <Table variant={"simple"} size="lg">
-
-            <TableCaption>
-              All registered courses in the DB
-            </TableCaption>
+        <TableContainer w={['100vw', 'full']}>
+          <Table variant={'simple'} size="lg">
+            <TableCaption>All available courses in the database</TableCaption>
 
             <Thead>
               <Tr>
-                <Th>ID</Th>
+                <Th>Id</Th>
                 <Th>Poster</Th>
-                <Th>Course Title</Th>
+                <Th>Title</Th>
                 <Th>Category</Th>
                 <Th>Creator</Th>
                 <Th isNumeric>Views</Th>
@@ -69,67 +106,69 @@ const CourseEditor = () => {
                 <Th isNumeric>Action</Th>
               </Tr>
             </Thead>
-
             <Tbody>
-              {
-                courses.map((element, index) => {
-                  return (
-                    <Row
-                      key={index}
-                      element={element}
-                      courseDetailsHandler={courseDetailsHandler}
-                      deleteCourseHandler={deleteCourseHandler}
-                    />
-                  )
-                })
-              }
+              {courses.map(item => (
+                <Row
+                  key={item._id}
+                  item={item}
+                  courseDetailsHandler={courseDetailsHandler}
+                  deleteButtonHandler={deleteButtonHandler}
+                  loading={loading}
+                />
+              ))}
             </Tbody>
-
           </Table>
         </TableContainer>
 
         <CourseModal
-          id={courses[0]._id}
-          courseTitle={courses[0].title}
           isOpen={isOpen}
           onClose={onClose}
           deleteLectureHandler={deleteLectureHandler}
           addLectureHandler={addLectureHandler}
+          id={courseId}
+          courseTitle={courseTitle}
+          lectures={lectures}
+          loading={loading}
         />
       </Box>
 
       <Sidebar />
     </Grid>
-  )
-}
+  );
+};
 
-const Row = ({element, courseDetailsHandler, deleteCourseHandler}) => {
+export default AdminCourses;
+
+function Row({ item, courseDetailsHandler, deleteButtonHandler, loading }) {
   return (
     <Tr>
-      <Td>{element._id}</Td>
-      <Td><Image src={element.poster.url}/></Td>
-      <Td>{element.title}</Td>
-      <Td>{element.category}</Td>
-      <Td>{element.createdBy}</Td>
-
-      <Td isNumeric>{element.views}</Td>
-      <Td isNumeric>{element.numOfVideos}</Td>
+      <Td>#{item._id}</Td>
+      <Td>
+        <Image src={item.poster.url} />
+      </Td>
+      <Td>{item.title}</Td>
+      <Td>{item.category}</Td>
+      <Td>{item.createdBy}</Td>
+      <Td isNumeric>{item.views}</Td>
+      <Td isNumeric>{item.numOfVideos}</Td>
       <Td isNumeric>
-        <HStack justifyContent={"flex-end"}>
-          
-          <Button variant={"outline"} color={"purple.500"} onClick={() => courseDetailsHandler(element._id)}>
+        <HStack justifyContent={'flex-end'}>
+          <Button
+            variant={'outline'}
+            color="purple.500"
+            onClick={() => courseDetailsHandler(item._id, item.title)}
+          >
             View Lectures
           </Button>
-
-          <Button color={"purple.600"} onClick={() => deleteCourseHandler(element._id)}>
+          <Button
+            color={'purple.600'}
+            onClick={() => deleteButtonHandler(item._id)}
+            isLoading={loading}
+          >
             <RiDeleteBin7Fill />
           </Button>
-
         </HStack>
       </Td>
-
     </Tr>
-  )
+  );
 }
-
-export default CourseEditor

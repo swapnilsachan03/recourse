@@ -1,10 +1,10 @@
-import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import React from 'react';
 
 const Subscribe = () => {
   return (
-    <Container height="90vh" padding={"16"} >
-      <Heading children="Welcome!" marginY={"8"} textAlign="center" />
+    <Container height="100vh" padding={"16"} >
+      <Heading children="Welcome!" marginY={"12"} textAlign="center" fontFamily={"Poppins"} />
 
       <VStack 
         boxShadow={"lg"} 
@@ -13,17 +13,17 @@ const Subscribe = () => {
         spacing="0"
       >
         <Box
-          bg={"blue.400"} 
+          bg={"blue.400"}
           padding="4"
           css={{borderRadius: "8px 8px 0 0"}}
         >
-          <Text color={"black"} children="Pro Pack - ₹299" />
+          <Text color={"black"} children="Premium - ₹299" />
         </Box>
 
-        <Box padding={"4"}>
+        <Box padding={"4"} bgColor={useColorModeValue("blackAlpha.200", "gray.800")}>
           <VStack textAlign={"center"} paddingX="8" marginTop={"4"} spacing="8">
             <Text
-              children={"Join Pro pack and gain access to all premium content."}
+              children={"Join Premium and gain access to all premium content."}
             />
 
             <Heading size={"md"} children={"₹ 299 only /-"} />

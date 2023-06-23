@@ -11,31 +11,55 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
   return (
     <VStack
       className="course"
-      alignItems={["center", "flex-start"]}
-      padding={"8"}
+      alignItems={"flex-start"}
+      gap={"1"}
+      padding={"4"}
       bgColor={useColorModeValue("gray.100", "gray.800")}
       border={"1px solid"}
       borderColor={useColorModeValue("gray.300", "gray.700")}
       borderRadius={"8"}
       boxShadow={"lg"}
+      width={["90%", "70%", "40%", "30%"]}
     >
-      <Image src={imageSrc} boxSize="60" objectFit={"contain"} />
-      
-      <Heading 
-        textAlign={["center", "left"]} 
-        maxW="200px" 
-        fontFamily={"sans-serif"} 
-        size={"sm"} 
-        noOfLines={"3"} 
-        children={title}
+      <Image
+        src={imageSrc}
+        height={52}
+        width={"full"}
+        objectFit={"cover"}
+        rounded={"md"}
+        mb={2}
       />
+
+      <VStack alignItems={"flex-start"}>
+        <Heading
+          textAlign={["center", "left"]}
+          fontSize={"3xl"}
+          fontWeight={"semibold"}
+          noOfLines={"1"}
+          children={title}
+        />
+
+        <Text
+          textAlign={"center"}
+          size={"sm"}
+          children={`${views} views`}
+          fontWeight={"medium"}
+        />
+      </VStack>
       
       <Text noOfLines={2} children={description} />
 
+      <Text 
+        textAlign={"center"}
+        fontSize={"sm"}
+        fontWeight={"light"}
+        children={`${lectureCount} lectures available`}
+      />
+
       <HStack>
-        <Text 
+        <Text
           fontWeight={"bold"}
-          children={"Creator: "}
+          children={"Created by "}
         />
         
         <Text 
@@ -43,20 +67,6 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
           children={creator}
         />
       </HStack>
-
-      <Heading 
-        textAlign={"center"}
-        size={"xs"}
-        children={`Lectures - ${lectureCount}`}
-        textTransform={"uppercase"}
-      />
-      
-      <Heading 
-        textAlign={"center"}
-        size={"xs"}
-        children={`Views - ${views}`}
-        textTransform={"uppercase"}
-      />
 
       <Stack direction={["column", "row"]} alignItems="center">
         <Link to={`/course/${id}`}>
@@ -66,7 +76,7 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
         </Link>
 
         <Button 
-          variant={"ghost"} 
+          variant={"outline"} 
           colorScheme={"blue"}
           onClick={() => addToPlaylistHandler(id)}
           isLoading={loading}
@@ -106,8 +116,15 @@ const Courses = () => {
   }, [category, keyword, dispatch, error, message])
 
   return (
-    <Container minH={"95vh"} maxW={"container.lg"} paddingY="8">
-      <Heading children="All Courses" m={"8"} />
+    <Container minH={"100vh"} maxW={"container.xl"} paddingY="8">
+      <Heading
+        children="All Courses"
+        fontSize={"5xl"}
+        my={"8"}
+        textAlign={"center"}
+        fontFamily={"Poppins"}
+      />
+
       <Input
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)} placeholder="Search a course..."
@@ -116,8 +133,8 @@ const Courses = () => {
       />
 
       <HStack
-        overflowX={"auto"} 
-        paddingY="6" 
+        overflowX={"auto"}
+        paddingY="6"
         css={{"&::-webkit-scrollbar": {display: "none"}}}
       >
         {

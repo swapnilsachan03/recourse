@@ -3,60 +3,69 @@ import { Link } from "react-router-dom";
 import { Stack, VStack, Heading, Text, Button, Image, Box, HStack } from "@chakra-ui/react";
 import "./Home.css";
 import homeImage from "../../assets/images/home-bg.png";
-import { CgGoogle, CgYoutube } from "react-icons/cg";
-import { SiCoursera, SiUdemy } from "react-icons/si";
-import { DiAws } from "react-icons/di";
+import { AiFillAmazonCircle, AiFillSkype, AiFillYoutube, AiOutlineGoogle } from "react-icons/ai"
+import { CgMicrosoft } from "react-icons/cg";
+import { SiCoursera, SiUdemy, SiZoom } from "react-icons/si";
 
 const Home = () => {
   return (
-    <section className="home">
-        <div className="container">
-            <Stack
-                direction={["column", "row"]}
-                height="100%"
-                justifyContent={["center", "space-between"]}
-                alignItems="center"
-                spacing={["16","18","20","26"]}
-            >
+  <section className="home">
+    <div className="container">
+      <Stack
+        direction={["column", "row"]}
+        height="100%"
+        justifyContent={["center", "space-between"]}
+        alignItems="center"
+        spacing={["16","18","20","26"]}
+      >
 
-                <VStack width={"full"} alignItems={["center", "flex-end"]} spacing={"10px"}>
-                    <Heading children="LEARN FROM THE EXPERTS" size="2xl" />
-                    <Text textAlign={["center","left"]} children="Find valuable content at reasonable prices!" fontSize={"20px"} />
+        <VStack width={"full"} alignItems={["center", "flex-end"]} spacing={"10px"}>
+          <Heading children="Learn from the Experts!" size="2xl" fontFamily={"Poppins"} />
+          <Text textAlign={["center","left"]} children="Find valuable content at reasonable prices." fontSize={"20px"} />
 
-                    <Link to="/courses">
-                        <Button size={"lg"} colorScheme={"blue"}>
-                            Explore more
-                        </Button>
-                    </Link>
-                </VStack>
+          <Link to="/courses">
+            <Button size={"lg"} colorScheme={"blue"} mt={"6"}>
+              Explore more
+            </Button>
+          </Link>
+        </VStack>
 
-                <Image boxSize={"md"} src={homeImage} objectFit={"contain"} className="home-image" />
-            </Stack>
-        </div>
+        <Image boxSize={"md"} src={homeImage} objectFit={"contain"} className="home-image" />
+      </Stack>
+    </div>
 
-        <Box padding={"8"} bg={"blackAlpha.800"} >
-            <Heading textAlign={"center"} fontFamily={"body"} color={"blue.400"} children="Our Brands" />
+    <Box padding={"8"} bg={"blackAlpha.800"} >
+      <Heading
+        textAlign={"center"}
+        fontFamily={"body"}
+        color={"blue.400"}
+        children="Our Channels"
+      />
 
-            <HStack className="brands-banner" justifyContent={"space-evenly"} marginTop="4" >
-                <CgGoogle />
-                <CgYoutube />
-                <SiCoursera />
-                <SiUdemy />
-                <DiAws />
-            </HStack>
-        </Box>
+      <HStack className="brands-banner" justifyContent={"space-evenly"} marginTop="8" >
+        <AiOutlineGoogle />
+        <AiFillYoutube />
+        <SiCoursera />
+        <SiUdemy />
+        <AiFillAmazonCircle />
+        <CgMicrosoft />
+        <AiFillSkype />
+        <SiZoom />
+      </HStack>
+    </Box>
 
-        <div className="video-container">
-            <video
-                autoPlay={true}
-                controls
-                loop
-                controlsList="nodownload nofullscreen noremoteplayback"
-                disablePictureInPicture
-                disableRemotePlayback
-            />
-        </div>
-    </section>
+    <div className="video-container">
+      <video
+        autoPlay={true}
+        controls
+        loop
+        src='/video/intro.mp4'
+        controlsList="nodownload nofullscreen noremoteplayback"
+        disablePictureInPicture
+        disableRemotePlayback
+      />
+    </div>
+  </section>
   )
 }
 

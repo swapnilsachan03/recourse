@@ -16,7 +16,7 @@ const Login = () => {
   }
 
   return (
-    <Container h={"95vh"}>
+    <Container h={"100vh"}>
       <VStack h={"full"} justifyContent={"center"} spacing={"16"}>
         <Heading children={"Welcome to reCourse"} />
 

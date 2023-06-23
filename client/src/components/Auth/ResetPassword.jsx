@@ -32,7 +32,7 @@ const ResetPassword = () => {
   }
 
   return (
-    <Container paddingY={"16"} height="85vh">
+    <Container paddingY={"16"} height="100vh">
       <form onSubmit={submitHandler}>
         <Heading children="Reset Password" marginY={"16"} textAlign={"center"} />
 

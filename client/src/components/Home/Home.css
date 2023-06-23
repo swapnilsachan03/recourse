@@ -26,7 +26,8 @@
 }
 
 .video-container {
-    height: 80vh;
+    padding-top: 40px;
+    padding-bottom: 60px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -35,7 +36,7 @@
 
 .video-container video {
     box-shadow: 0 0 10px rgba(0,0,0,1);
-    width: 60%;
+    width: 90%;
     border-radius: 10px;
     outline: none;
 }

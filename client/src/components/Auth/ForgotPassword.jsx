@@ -28,7 +28,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <Container paddingY={"16"} height="85vh">
+    <Container paddingY={"16"} height="100vh">
       <form onSubmit={submitHandler}>
         <Heading children="Enter Your E-mail" marginY={"16"} textAlign={"center"} />
 

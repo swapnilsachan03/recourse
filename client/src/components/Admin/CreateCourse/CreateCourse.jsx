@@ -1,7 +1,10 @@
 import { Button, Container, Grid, Heading, Image, Input, Select, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Sidebar from '../Sidebar'
 import { fileUploadCSS } from "../../../assets/fileUploadCSS";
+import { createCourse } from "../../../redux/actions/admin";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const CreateCourse = () => {
   const [title, setTitle] = useState();
@@ -24,18 +27,47 @@ const CreateCourse = () => {
     }
   }
 
+  const dispatch = useDispatch();
+
+  const { loading, error, message } = useSelector(state => state.admin);
+
+  const submitHandler = e => {
+    e.preventDefault();
+    const myForm = new FormData();
+
+    myForm.append('title', title);
+    myForm.append('description', description);
+    myForm.append('category', category);
+    myForm.append('createdBy', createdBy);
+    myForm.append('file', image);
+
+    dispatch(createCourse(myForm));
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
+    if (message) {
+      toast.success(message);
+      dispatch({ type: 'clearMessage' });
+    }
+  }, [error, message, dispatch]);
+
   return (
     <Grid
       cursor={"pointer"}
       minH={"100vh"}
       templateColumns={["1fr", "5fr 1fr"]}
     >
-      <Container paddingY={"16"}>
-        <form>
+      <Container paddingY={"10"}>
+        <form onSubmit={submitHandler}>
           <Heading
             children="Create Course"
-            textAlign={["center", "left"]}
+            textAlign={'center'}
             marginY={"16"}
+            fontFamily={"Poppins"}
           />
 
           <VStack margin={"auto"} spacing={"8"}>
@@ -93,13 +125,14 @@ const CreateCourse = () => {
             />
 
             { imagePrev && (
-              <Image src={imagePrev} boxSize="64" objectFit={"contain"} />
+              <Image src={imagePrev} width="full" objectFit={"cover"} borderRadius={"md"} />
             )}
 
             <Button
               width={"full"}
               colorScheme={"purple"}
               type={"submit"}
+              isLoading={loading}
             >
               Create Course
             </Button>

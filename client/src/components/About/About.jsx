@@ -8,7 +8,7 @@ const Founder = () => {
   return (
     <Stack
       direction={["column", "row"]}
-      spacing={["4", "16"]} 
+      spacing={["4", "16"]}
       padding={"8"}
     >
       <VStack>
@@ -17,11 +17,12 @@ const Founder = () => {
       </VStack>
 
       <VStack justifyContent={"center"} alignItems={["center", "flex-start"]}>
-        <Heading children={"Swapnil Sachan"} size={["md", "xl"]} />
+        <Heading children={"Swapnil Sachan"} size={["md", "lg"]} fontWeight={"light"} />
         
-        <Text 
+        <Text
           textAlign={["center", "left"]}
-          children={"Hi! I am a full-stack developer and a second-year student at Chandigarh University. This website's mission is to provide quality education at a reasonable price."} 
+          children={"Hi! I am a full-stack developer and a second-year student at Chandigarh University. This website's mission is to provide quality education at a reasonable price."}
+          fontSize={"sm"}
         />
       </VStack>
     </Stack>
@@ -31,6 +32,7 @@ const VideoPlayer = () => {
   return (
     <Box className="video-container">
       <video
+        src='/video/intro.mp4'
         autoPlay={true}
         muted
         controls
@@ -72,17 +74,25 @@ const TandC = (props) => {
 
 const About = () => {
   return (
-    <Container maxWidth={"container.lg"} padding={"16"} boxShadow={"lg"}>
-      <Heading children="About Us" textAlign={"center"} />
+    <Container maxWidth={"container.lg"} padding={"16"}>
+      <Heading
+        children="About Us"
+        textAlign={"center"}
+        size={"2xl"}
+        fontWeight={"bold"}
+        fontFamily={"Poppins"}
+        my={"6"}
+      />
+      
       <Founder />
 
       <Stack margin="8" direction={["column", "row"]} alignItems="center">
-        <Text fontFamily={"Roboto Condensed"} textAlign={["center", "left"]}>
+        <Text textAlign={["center", "left"]}>
           We are a video streaming education platform with some premium courses available only for our premium users.
         </Text>
 
         <Link to="/subscribe">
-          <Button variant={"ghost"} colorScheme={"blue"}>
+          <Button variant={"outline"} colorScheme={"blue"}>
             Checkout our Pro plan.
           </Button>
         </Link>
