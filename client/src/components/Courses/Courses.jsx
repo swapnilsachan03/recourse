@@ -32,7 +32,6 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
 
       <VStack alignItems={"flex-start"}>
         <Heading
-          textAlign={["center", "left"]}
           fontSize={"3xl"}
           fontWeight={"semibold"}
           noOfLines={"1"}
@@ -40,7 +39,6 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
         />
 
         <Text
-          textAlign={"center"}
           size={"sm"}
           children={`${views} views`}
           fontWeight={"medium"}
@@ -68,7 +66,7 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
         />
       </HStack>
 
-      <Stack direction={["column", "row"]} alignItems="center">
+      <HStack alignItems="center">
         <Link to={`/course/${id}`}>
           <Button colorScheme={"blue"}>
             Watch Now
@@ -83,7 +81,7 @@ const CourseCard = ({views, title, imageSrc, id, addToPlaylistHandler, creator, 
         >
           Add to Playlist
         </Button>
-      </Stack>
+      </HStack>
     </VStack>
   );
 }

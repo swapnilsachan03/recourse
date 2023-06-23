@@ -12,16 +12,27 @@ const Home = () => {
   <section className="home">
     <div className="container">
       <Stack
-        direction={["column", "row"]}
+        direction={["column", "column", "row"]}
         height="100%"
         justifyContent={["center", "space-between"]}
         alignItems="center"
         spacing={["16","18","20","26"]}
       >
 
-        <VStack width={"full"} alignItems={["center", "flex-end"]} spacing={"10px"}>
-          <Heading children="Learn from the Experts!" size="2xl" fontFamily={"Poppins"} />
-          <Text textAlign={["center","left"]} children="Find valuable content at reasonable prices." fontSize={"20px"} />
+        <VStack width={"full"} alignItems={["center", "center", "center", "flex-end"]} spacing={"10px"}>
+          <Heading
+            children="Learn from the Experts!"
+            size="2xl"
+            textAlign={["center", "center", "center", "right"]}
+            fontFamily={"Poppins"}
+          />
+
+          <Text
+            textAlign={["center", "center", "centre", "right"]}
+            children="Find valuable content at reasonable prices."
+            fontSize={["16px", "20px"]}
+            pt={["4", "0.5"]}
+          />
 
           <Link to="/courses">
             <Button size={"lg"} colorScheme={"blue"} mt={"6"}>

@@ -36,6 +36,7 @@ const Header = ({ isAuthenticated = false, user }) => {
         position={"fixed"}
         top={"6"}
         left={"6"}
+        zIndex={100}
       >
         <RiMenu5Fill />
       </Button>
